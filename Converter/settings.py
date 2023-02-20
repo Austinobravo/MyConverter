@@ -116,6 +116,8 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+#csrf
+CSRF_TRUSTED_ORIGINS = ['https://myconverter.up.railway.app']
 
 
 # Static files (CSS, JavaScript, Images)
