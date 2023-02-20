@@ -84,35 +84,35 @@ def details(request):
             # url input from user    
             #print("URL>>"+request.POST["address"])
             my_new_path ="media\\audiofiles\\"+re.sub('[^a-zA-Z0-9 \n\.]', '', str(last_link))
-            # if exists(my_new_path):          
-            #     for file in os.listdir(my_new_path):
-            #         if file.endswith(".mp3"):
-            #                 audiofile = open(my_new_path+"\\"+file, "rb").read() 
-            #                 response = HttpResponse(audiofile, content_type='audio/mpeg')
-            #                 response['Content-Disposition'] = 'attachment; filename=' + file
-            # else:
+            if exists(my_new_path):          
+                for file in os.listdir(my_new_path):
+                    if file.endswith(".mp3"):
+                            audiofile = open(my_new_path+"\\"+file, "rb").read() 
+                            response = HttpResponse(audiofile, content_type='audio/mpeg')
+                            response['Content-Disposition'] = 'attachment; filename=' + file
+            else:
             #Start Conversion
-            Mp3 = YouTube(str(last_link))
-            # extract only audio
-            video = Mp3.streams.filter(only_audio=True).first()
+                Mp3 = YouTube(str(last_link))
+                # extract only audio
+                video = Mp3.streams.filter(only_audio=True).first()
 
-            # download the file        
-            out_file = video.download(output_path=my_new_path)
-            # save the file
-            base, ext = os.path.splitext(out_file)
-            new_file = base + '.mp3'        
-            os.rename(out_file, new_file)
-            # result of success
-            # print(yt.title + " has been successfully downloaded.")
-            # last_link.delete()
-            # messages.success(request, f'Your song {Details.title} has been downloaded')
-            
-            for file in os.listdir(my_new_path):
-                if file.endswith(".mp3"):
-                    audiofile = open(my_new_path+"\\"+file, "rb").read() 
-                    response = HttpResponse(audiofile, content_type='audio/mpeg')
-                    response['Content-Disposition'] = 'attachment; filename=' + file
-        # return response
+                # download the file        
+                out_file = video.download(output_path=my_new_path)
+                # save the file
+                base, ext = os.path.splitext(out_file)
+                new_file = base + '.mp3'        
+                os.rename(out_file, new_file)
+                # result of success
+                # print(yt.title + " has been successfully downloaded.")
+                # last_link.delete()
+                # messages.success(request, f'Your song {Details.title} has been downloaded')
+                
+                for file in os.listdir(my_new_path):
+                    if file.endswith(".mp3"):
+                        audiofile = open(my_new_path+"\\"+file, "rb").read() 
+                        response = HttpResponse(audiofile, content_type='audio/mpeg')
+                        response['Content-Disposition'] = 'attachment; filename=' + file
+            return response
         #Download the mp4 file.    
         elif request.POST.get('submit') == 'downloadmp4':
             last_link= Link.objects.filter().last()
@@ -120,25 +120,25 @@ def details(request):
             #Clearing old files and creating new ones
             clearolderfiles("videofiles")
             my_new_path ="media\\videofiles\\"+re.sub('[^a-zA-Z0-9 \n\.]', '', str(last_link))
-            # if exists(my_new_path):          
-            #     for file in os.listdir(my_new_path):
-            #         if file.endswith(".mp4"):
-            #                 audiofile = open(my_new_path+"\\"+file, "rb").read() 
-            #                 response = HttpResponse(audiofile, content_type='application/vnd.mp4')
-            #                 response['Content-Disposition'] = 'attachment; filename=' + file
-            # else:
+            if exists(my_new_path):          
+                for file in os.listdir(my_new_path):
+                    if file.endswith(".mp4"):
+                            audiofile = open(my_new_path+"\\"+file, "rb").read() 
+                            response = HttpResponse(audiofile, content_type='application/vnd.mp4')
+                            response['Content-Disposition'] = 'attachment; filename=' + file
+            else:
                 #Start File Processing.
-            Mp4 = YouTube(str(last_link))
-            video = Mp4.streams.get_highest_resolution()
+                Mp4 = YouTube(str(last_link))
+                video = Mp4.streams.get_highest_resolution()
 
-            # download the file        
-            out_file = video.download(output_path=my_new_path)
-            for file in os.listdir(my_new_path):
-                if file.endswith(".mp4"):
-                        audiofile = open(my_new_path+"\\"+file, "rb").read() 
-                        response = HttpResponse(audiofile, content_type='application/vnd.mp4')
-                        response['Content-Disposition'] = 'attachment; filename=' + file
-            # return response
+                # download the file        
+                out_file = video.download(output_path=my_new_path)
+                for file in os.listdir(my_new_path):
+                    if file.endswith(".mp4"):
+                            audiofile = open(my_new_path+"\\"+file, "rb").read() 
+                            response = HttpResponse(audiofile, content_type='application/vnd.mp4')
+                            response['Content-Disposition'] = 'attachment; filename=' + file
+            return response
 
 
 
