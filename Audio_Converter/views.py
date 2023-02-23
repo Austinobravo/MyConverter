@@ -59,13 +59,14 @@ def details(request):
             link = Link(link=Links)
             link.save()
         last_link= Link.objects.filter().last()      
-        try:
             #Checking if the video can be Processed.
-            Details = YouTube(str(last_link)).check_availability()
+        Details = YouTube(str(last_link)).check_availability()
+        try:
             #Getting the youtube details
-            Details = YouTube(str(last_link))
 
+            Details = YouTube(str(last_link))
         except VideoUnavailable:
+
             last_link.delete()
             messages.info(request, "This link is unavailable.")
             return redirect('home')
